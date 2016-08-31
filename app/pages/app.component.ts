@@ -4,6 +4,7 @@ import { NS_ROUTER_DIRECTIVES, nsProvideRouter } from "nativescript-angular/rout
 import { MainComponent } from './main.component';
 import { OffersComponent } from './offers.component';
 import { SavedComponent } from './saved.component';
+import { DetailComponent } from './detail.component';
 import * as frame from "ui/frame";
 
 enum BarStyle {
@@ -43,6 +44,7 @@ const routes: RouterConfig = [
             { path: 'saved', component: SavedComponent }
         ]
     },
+    { path: 'offers/:id', component: DetailComponent },
 ];
 
 export var AppRouterProviders = nsProvideRouter(routes, { enableTracing: false });

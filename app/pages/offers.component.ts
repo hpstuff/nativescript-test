@@ -74,5 +74,6 @@ export class OffersComponent {
 
     public onItemTap(item) {
         console.log("--> ItemTapped: " + item.index);
+        this.router.navigateByUrl(`/offers/${this.store.items[item.index].Id}`);
     }
 }
