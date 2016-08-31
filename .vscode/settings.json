@@ -5,7 +5,7 @@
         "**/.npm*": true,
         "**/.hg": true,
         "**/.DS_Store": true,
-        "**/*.js": true,
-        "**/*.js.map": true
+        "**/*.js": false,
+        "**/*.js.map": false
     }
 }
