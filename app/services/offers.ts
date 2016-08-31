@@ -26,7 +26,7 @@ export class OffersService {
                 json.hero
               ));
 
-              this.allItems = this.allItems.concat(offers);
+              this.allItems = offers;
               this.publishUpdates();
 
               resolve(this.allItems);

@@ -19,7 +19,9 @@ import { BoxShadowDirective } from '../directives/box-shadow';
     template: `
     <StackLayout class="offer-item" 
         boxShadow="0 0.5 1 rgba(0, 0, 0, 0.5)">
-        <Label class="header" text="NEWS"></Label>
+        <StackLayout class="header">
+            <Label text="NEWS"></Label>
+        </StackLayout>
         <Image [src]="ImageURL" stretch="aspectFill"></Image>
         <Label class="title" [text]="Title" textWrap="true"></Label>
     </StackLayout>`
@@ -39,6 +41,7 @@ export class OfferItemComponent {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <ListView class="offers-list"
+        separatorColor="#00000000"
         [items]="store.items | async"
         (itemLoading)="onItemLoading($event)"
         (itemTap)="onItemTap($event)"

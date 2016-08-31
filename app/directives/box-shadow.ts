@@ -18,10 +18,18 @@ export class BoxShadowDirective {
 
     constructor(private elementRef: ElementRef) {}
     
+    androidElevation(view: View) {
+        const wrapper: android.view.View = view.android;
+        if (wrapper.setElevation) {
+            wrapper.setElevation(2);
+        }
+    }
+
     createShadow() {
         const view: View = this.elementRef.nativeElement;
         const wrapper: UIView = view.ios;
         if (!wrapper) {
+            this.androidElevation(view);
             return;
         }
         this.parseShadow(this.shadow);

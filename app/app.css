@@ -24,14 +24,14 @@ Page {
     padding: 0;
 }
 
-.nav .button-wrapper .deimeter {
+.nav .button-wrapper .delimeter {
     width: 1;
     height: 45;
     margin-bottom: 1;
     background-color: #fff;
 }
 
-.nav .button-wrapper .deimeter Label {
+.nav .button-wrapper .delimeter Label {
     margin-top: 9;
     width: 1;
     height: 26;
@@ -46,7 +46,8 @@ Page {
     color: #909090;
     background-color: #fff;
     border-radius: 0;
-    border : 0 solid black;
+    border-width: 0.1;
+    border-style: none;
     margin-bottom: 1;
 }
 
@@ -77,13 +78,7 @@ Page {
     background-color: #00615f;
 }
 
-.main-content {
-    height: 200;
-    background-color: red;
-}
-
 .offers-list {
-    padding: 3 0;
     background-color: #cecac8;
 }
 
@@ -99,16 +94,22 @@ Page {
 
 .offer-item .header {
     background-color: #000;
-    color: #fff;
-    padding: 10;
-    font-family: CalibreApp-Semibold;
+    padding: 0 10;
+    vertical-align: center;
     height: 50;
 }
 
+.offer-item .header Label {
+    color: #fff;
+    font-size: 19;
+    font-family: CalibreApp-Semibold;
+}
+
 .offer-item .title {
-    padding: 20; 
+    padding: 20;
+    color: #000;
     font-family: CalibreApp-Light;
-    font-size: 26;
+    font-size: 19;
 }
 
 .side-stack-layout {

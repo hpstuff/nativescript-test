@@ -5,7 +5,7 @@ import { AnimationCurve } from 'ui/enums';
 import { Page } from 'ui/page';
 import { BoxShadowDirective } from '../directives/box-shadow';
 import { RadSideDrawerComponent, SideDrawerType } from 'nativescript-telerik-ui/sidedrawer/angular';
-import { device, platformNames } from 'platform';
+import { device, platformNames, screen } from 'platform';
 import { MenuComponent } from './menu.component';
 
 @Component({
@@ -14,26 +14,24 @@ import { MenuComponent } from './menu.component';
     template: `
     <ActionBar title="">
         <ActionItem *ngIf="isIos" icon="res://icon_menu" (tap)="openDrawer()"></ActionItem>
-        <NavigationButton *ngIf="isAndroid" icon="res://icon_menu" (tap)="openDrawer()"></NavigationButton>
+        <NavigationButton *ngIf="isAndroid" icon="res://icon_menu" (tap)="toggleDrawer()"></NavigationButton>
         <StackLayout class="title">
             <Label text="THE PASS"></Label>
         </StackLayout>
-    </ActionBar>      
-    <RadSideDrawer #drawer showOverNavigation="true" (loaded)="loadDrawer()">
-        <StackLayout tkDrawerContent class="side-stack-layout" boxShadow="1 0 6 rgba(0, 0, 0, 0.5)">
-            <StackLayout class="side-menu-wrapper">
-                <MenuList (onMenuSelected)="closeDrawer()"></MenuList>
-            </StackLayout>
+    </ActionBar>
+    <RadSideDrawer #drawer (loaded)="loadDrawer()" [showOverNavigation]="isIos">
+        <StackLayout tkDrawerContent class="side-stack-layout">
+            <MenuList (onMenuSelected)="closeDrawer()"></MenuList>
         </StackLayout>
         <StackLayout tkMainContent class="main-content">
-            <StackLayout class="nav">
+            <StackLayout class="nav" (loaded)="navigationLoad()">
                 <StackLayout #nav class="button-wrapper">
                     <Button text="CURRENT" [nsRouterLinkActive]="['selected']" [nsRouterLink]="['/offers']"></Button>
-                    <StackLayout class="deimeter"><Label></Label></StackLayout>
+                    <StackLayout class="delimeter"><Label></Label></StackLayout>
                     <Button class="saved" [nsRouterLinkActive]="['selected']" [nsRouterLink]="['/saved']"></Button>
                 </StackLayout>
                 <AbsoluteLayout class="underline-wrapper">
-                    <Label #line class="underline" [translateX]="left" top="0"></Label>
+                    <StackLayout #line class="underline" [translateX]="left" top="0"></StackLayout>
                 </AbsoluteLayout>
             </StackLayout>
             <router-outlet></router-outlet>
@@ -62,7 +60,6 @@ export class MainComponent implements AfterViewInit {
         return (this.step - this.lineWidth) / 2;
     }
 
-    @ViewChild('nav') nav: ElementRef;
     @ViewChild('line') line: ElementRef;
 
     constructor(
@@ -77,18 +74,40 @@ export class MainComponent implements AfterViewInit {
     }
 
     public openDrawer() {
-        this.drawer.showDrawer();
+        if (this.drawer) {
+            this.drawer.showDrawer();
+        }
+    }
+
+    public toggleDrawer() {
+        if (this.drawer) {
+            this.drawer.toggleDrawerState();
+        }
     }
 
     public closeDrawer() {
-        this.drawer.closeDrawer();
+        if (this.drawer) {
+            this.drawer.closeDrawer();
+        }
     }
 
     public loadDrawer() {
+        if (!this.drawerComponent) {
+            return;
+        }
         const drawer = this.drawerComponent.sideDrawer.ios;
         if (drawer) {
             drawer.attachDrawerToWindow();
         }
+    }
+
+    public navigationLoad() {
+        this.navWidth = screen.mainScreen.widthDIPs;    
+        this.lineWidth = this.line.nativeElement.width;
+
+        this.step = this.navWidth / 2;
+
+        this.left = this.offset;
     }
 
     private goTo(url: string) {
@@ -104,15 +123,20 @@ export class MainComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.drawer = this.drawerComponent.sideDrawer;
+        if (this.drawerComponent) {
+            this.drawer = this.drawerComponent.sideDrawer;
+        }
         this._changeDetectionRef.detectChanges();
         setTimeout(()=>{
+            return;
+            /*
             this.lineWidth = this.line.nativeElement.getMeasuredWidth();
             this.navWidth = this.nav.nativeElement.getMeasuredWidth();
 
             this.step = this.navWidth / 2;
 
             this.left = this.offset;
+            */
         }, 100);
     }
 }
